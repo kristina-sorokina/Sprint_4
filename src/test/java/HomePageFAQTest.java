@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HomePageFAQ;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -22,6 +23,34 @@ public class HomePageFAQTest extends BaseUrlTest {
     private final Logger logger = LogManager.getLogger(HomePageFAQTest.class);
     private WebDriver driver;
     private HomePageFAQ homePageFAQ;
+
+    private final List<String> expectedAnswers = new ArrayList<>(
+            List.of("Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
+                    "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто " +
+                            "сделать несколько заказов — один за другим.",
+                    "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени " +
+                            "аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 " +
+                            "мая в 20:30, суточная аренда закончится 9 мая в 20:30.",
+                    "Только начиная с завтрашнего дня. Но скоро станем расторопнее.",
+                    "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.",
+                    "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете " +
+                            "кататься без передышек и во сне. Зарядка не понадобится.",
+                    "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.",
+                    "Да, обязательно. Всем самокатов! И Москве, и Московской области."
+            )
+    );
+
+    private final List<String> expectedQuestions = new ArrayList<>(
+            List.of("Сколько это стоит? И как оплатить?",
+                    "Хочу сразу несколько самокатов! Так можно?",
+                    "Как рассчитывается время аренды?",
+                    "Можно ли заказать самокат прямо на сегодня?",
+                    "Можно ли продлить заказ или вернуть самокат раньше?",
+                    "Вы привозите зарядку вместе с самокатом?",
+                    "Можно ли отменить заказ?",
+                    "Я живу за МКАДом, привезёте?"
+            )
+    );
 
     @Rule
     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
@@ -55,7 +84,6 @@ public class HomePageFAQTest extends BaseUrlTest {
     @Test
     public void checkAnswerTextWhenClickedOnQuestion() {
         List<WebElement> actualQuestions = homePageFAQ.getQuestions();
-        List<String> expectedAnswers = homePageFAQ.getExpectedAnswers();
 
         for (int i = 0; i < actualQuestions.size(); i++) {
             WebElement actualQuestion = actualQuestions.get(i);
@@ -79,11 +107,10 @@ public class HomePageFAQTest extends BaseUrlTest {
     @Test
     public void checkQuestionText() {
         List<WebElement> actualQuestionElements = homePageFAQ.getQuestions();
-        List<String> expectedQuestionsText = homePageFAQ.getExpectedQuestions();
 
         for (int i = 0; i < actualQuestionElements.size(); i++) {
             String actualQuestionText = actualQuestionElements.get(i).getText();
-            String expectedQuestionText = expectedQuestionsText.get(i);
+            String expectedQuestionText = expectedQuestions.get(i);
 
             softly.assertThat(actualQuestionText)
                     .as("The text of the question is not as expected")

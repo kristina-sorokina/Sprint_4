@@ -43,7 +43,7 @@ public class OrderTest extends BaseUrlTest {
         this.comment = comment;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Test data: {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}")
     public static Object[][] getTestData() {
         return new Object[][] {
                 // happy path - all fields filled out
